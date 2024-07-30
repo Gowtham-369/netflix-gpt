@@ -1,28 +1,94 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Header from './Header';
+import { checkValidData } from '../utils/validate'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/userSlice';
 
 const Login = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [isSignInForm, setIsSignInForm] = useState(true);
-    const toggleSignInForm = () =>  {
+    const [errorMessageFormValidation, setErrorMessageFormValidation] = useState(null);
+    const name = useRef(null);
+    const email = useRef(null);
+    const password = useRef(null);
+
+    const handleButtonClick = () => {
+        // Validate the form data
+        const message = checkValidData(isSignInForm, name?.current?.value, email?.current?.value, password?.current?.value);
+
+        setErrorMessageFormValidation(message);
+
+        // Authentication
+        if (message) return;
+
+        if (!isSignInForm) {
+            // Sign Up
+            createUserWithEmailAndPassword(auth, email?.current?.value, password?.current?.value)
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
+                    console.log(user);
+                    updateProfile(user, {
+                        displayName: name?.current?.value, 
+                        photoURL: "https://avatars.githubusercontent.com/u/60213234?v=4"
+                    }).then(() => {
+                        // Profile updated!
+                        const { uid, email, displayName, photoURL } = auth.currentUser;
+				        dispatch(addUser({uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
+                        navigate('/browse');
+                    }).catch((error) => {
+                        setErrorMessageFormValidation(error.message);
+                    });
+                    
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessageFormValidation(errorCode + "-" + errorMessage);
+                });
+        }
+        else {
+            // Sign In
+            signInWithEmailAndPassword(auth, email?.current?.value, password?.current?.value)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user);
+                    navigate('/browse');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessageFormValidation(errorCode + "-" + errorMessage);
+                });
+        }
+    }
+
+    const toggleSignInForm = () => {
         setIsSignInForm(!isSignInForm);
     }
     return (
         <div>
             <Header />
             <div className="absolute -z-10">
-                <img className="brightness-50" src="https://assets.nflxext.com/ffe/siteui/vlv3/21a8ba09-4a61-44f8-8e2e-70e949c00c6f/e86a75da-ce78-4129-9e7d-c056f1c3363b/US-en-20240722-POP_SIGNUP_TWO_WEEKS-perspective_WEB_e46f05a7-c909-4aaf-9e3c-c832bbca606c_small.jpg" 
+                <img className="brightness-50" src="https://assets.nflxext.com/ffe/siteui/vlv3/21a8ba09-4a61-44f8-8e2e-70e949c00c6f/e86a75da-ce78-4129-9e7d-c056f1c3363b/US-en-20240722-POP_SIGNUP_TWO_WEEKS-perspective_WEB_e46f05a7-c909-4aaf-9e3c-c832bbca606c_small.jpg"
                     alt="login-background"
                 />
             </div>
-            <form className="p-16 bg-black bg-opacity-70 text-white  w-4/12 absolute z-20 left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <form onSubmit={(e) => { e.preventDefault() }} className="p-16 bg-black bg-opacity-70 text-white  w-4/12 absolute z-20 left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
                 <h1 className="py-2 my-2 text-4xl font-bold">{isSignInForm ? "Sign In" : "Sign Up"}</h1>
-                {!isSignInForm && <input type="text" placeholder="Full Name" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />}
-                <input type="text" placeholder="Email Address" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
-                <input type="password" placeholder="Password" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
-                <button className="p-4 my-2 bg-red-600 text-white text-lg font-bold rounded-md w-full">{isSignInForm ? "Sign In" : "Sign Up"}</button>
-                <p className="py-4 my-2 text-lg cursor-pointer" onClick={() => {toggleSignInForm()}}>{isSignInForm ? "New to Netflix? Sign up now." : "Already registered? Sign In"}</p>
+                {!isSignInForm && <input ref={name} type="text" placeholder="Full Name" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />}
+                <input ref={email} type="text" placeholder="Email Address" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
+                <input ref={password} type="password" placeholder="Password" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
+                <p className="text-red-600">{errorMessageFormValidation}</p>
+                <button onClick={() => { handleButtonClick() }} className="p-4 my-2 bg-red-600 text-white text-lg font-bold rounded-md w-full">{isSignInForm ? "Sign In" : "Sign Up"}</button>
+                <p className="py-4 my-2 text-lg cursor-pointer" onClick={() => { toggleSignInForm() }}>{isSignInForm ? "New to Netflix? Sign up now." : "Already registered? Sign In"}</p>
             </form>
-            
+
         </div>
     )
 }
