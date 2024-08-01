@@ -29,11 +29,11 @@ also redirected Signed users to ("/browse") when try to access Login route ("/")
 - Embedded the Main Movie Youtube Trailer and make it autoplay on mute
 - Tailwind Classes to make Main Container look awesome
 - Build Secondary Component
-- Built MovieLists
-- Built MovieCard
+- Build MovieLists
+- Build MovieCard
 - TMDB Image CDN URL
-- Used Tailwind CSS to customize the browse page to look awesome
-- Used Custom hooks like usePopularMovies, useTopRatedMovies and useUpcomingMovies
+- Use Tailwind CSS to customize the browse page to look awesome
+- Use Custom hooks like usePopularMovies, useTopRatedMovies and useUpcomingMovies
 
 # Features
 - Login/Sign Up
