@@ -2,7 +2,6 @@ import React from 'react';
 import MovieCard from './MovieCard';
 
 const MovieList = ({ title, movies }) => {
-    console.log(movies);
     return (
         <div>
             <div className="px-16 py-4">
