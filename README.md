@@ -34,6 +34,9 @@ also redirected Signed users to ("/browse") when try to access Login route ("/")
 - TMDB Image CDN URL
 - Use Tailwind CSS to customize the browse page to look awesome
 - Use Custom hooks like usePopularMovies, useTopRatedMovies and useUpcomingMovies
+- GPT Search Page
+- GPT Search Bar
+- (Good Feature): Multilingual Search Feature
 
 # Features
 - Login/Sign Up
