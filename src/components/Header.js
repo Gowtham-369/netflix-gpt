@@ -49,8 +49,8 @@ const Header = () => {
     const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
     return (
-        <div className="absolute z-10 w-full px-10 bg-gradient-to-b from-black flex justify-between items-center">
-            <div className="w-52">
+        <div className="absolute z-10 w-full px-10 bg-gradient-to-b from-black flex flex-col items-center md:flex-row md:justify-between">
+            <div className="w-28 sm:w-36 md:w-52">
                 <img src={NETFLIX_LOGO}
                     alt="logo"
                 />
@@ -59,7 +59,7 @@ const Header = () => {
             {
                 user &&
                 (
-                <div className="flex items-center">
+                <div className="flex items-center text-xs sm:text-md md:text-lg">
                     {
                     showGptSearch && (
                     <select className="p-2 m-2 bg-gray-800 text-white rounded-lg" onChange={handleLanguageChange}>
@@ -67,9 +67,9 @@ const Header = () => {
                     </select>
                     )
                     }
-                    <button className="p-2 px-4 m-2 text-white font-bold bg-purple-600 rounded-lg" onClick={handleGptSearchClick}>{showGptSearch ? "Home": "SearchGPT"}</button>
-                    <img className="w-10 rounded-lg" src={user?.photoURL} alt="usericon" />
-                    <button className= "p-2 mx-2 text-white font-bold bg-red-600 rounded-lg" onClick={() => { handleSignOut() }}>
+                    <button className="py-2 px-4 m-2 text-white font-bold bg-purple-600 rounded-sm md:rounded-lg" onClick={handleGptSearchClick}>{showGptSearch ? "Home": "SearchGPT"}</button>
+                    <img className="w-8 sm:w-10 rounded-sm md:rounded-lg" src={user?.photoURL} alt="usericon" />
+                    <button className= "p-2 mx-2 text-white font-bold bg-red-600 rounded-sm md:rounded-lg" onClick={() => { handleSignOut() }}>
                         Sign Out
                     </button>
                 </div>

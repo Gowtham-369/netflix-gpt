@@ -71,18 +71,18 @@ const Login = () => {
         <div>
             <Header />
             <div className="absolute -z-10">
-                <img className="brightness-50" src={BG_URL}
+                <img className="brightness-50 h-screen object-cover" src={BG_URL}
                     alt="login-background"
                 />
             </div>
-            <form onSubmit={(e) => { e.preventDefault() }} className="p-16 bg-black bg-opacity-70 text-white  w-4/12 absolute z-20 left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
-                <h1 className="py-2 my-2 text-4xl font-bold">{isSignInForm ? "Sign In" : "Sign Up"}</h1>
-                {!isSignInForm && <input ref={name} type="text" placeholder="Full Name" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />}
-                <input ref={email} type="text" placeholder="Email Address" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
-                <input ref={password} type="password" placeholder="Password" className="p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
+            <form onSubmit={(e) => { e.preventDefault() }} className="p-10 md:p-16 bg-black bg-opacity-70 text-white w-10/12 md:w-4/12 absolute z-20 left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2">
+                <h1 className="py-2 my-2 text-2xl md:text-4xl font-bold">{isSignInForm ? "Sign In" : "Sign Up"}</h1>
+                {!isSignInForm && <input ref={name} type="text" placeholder="Full Name" className="p-2 md:p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />}
+                <input ref={email} type="text" placeholder="Email Address" className="p-2 md:p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
+                <input ref={password} type="password" placeholder="Password" className="p-2 md:p-4 my-2 w-full bg-black bg-opacity-70 border-2 border-gray-500 rounded-md" />
                 <p className="text-red-600">{errorMessageFormValidation}</p>
-                <button onClick={() => { handleButtonClick() }} className="p-4 my-2 bg-red-600 text-white text-lg font-bold rounded-md w-full">{isSignInForm ? "Sign In" : "Sign Up"}</button>
-                <p className="py-4 my-2 text-lg cursor-pointer" onClick={() => { toggleSignInForm() }}>{isSignInForm ? "New to Netflix? Sign up now." : "Already registered? Sign In"}</p>
+                <button onClick={() => { handleButtonClick() }} className="p-2 md:p-4 my-2 bg-red-600 text-white text-lg font-bold rounded-md w-full">{isSignInForm ? "Sign In" : "Sign Up"}</button>
+                <p className="py-4 my-2 text-md md:text-lg cursor-pointer" onClick={() => { toggleSignInForm() }}>{isSignInForm ? "New to Netflix? Sign up now." : "Already registered? Sign In"}</p>
             </form>
 
         </div>

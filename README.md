@@ -37,6 +37,15 @@ also redirected Signed users to ("/browse") when try to access Login route ("/")
 - GPT Search Page
 - GPT Search Bar
 - (Good Feature): Multilingual Search Feature
+- Get OpenAI API Key
+- GPT Search API call
+- fetch gptMovieResults from TMDB 
+- Create gptSlice to add gpt related data
+- Reused MovieList Component to show Gpt Suggested movies in a container
+- Memoization
+- Added .env file
+- Adding .env file to .gitignore to hide API keys
+- Made website responsive to various screen sizes using Tailwind
 
 # Features
 - Login/Sign Up
